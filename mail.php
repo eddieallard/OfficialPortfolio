@@ -1,94 +1,81 @@
-<?php 
-error_reporting(E_ALL ^ E_NOTICE); // hide all basic notices from PHP
-
-//If the form is submitted
-if(isset($_POST['submitted'])) {
-	
-	// require a name from user
-	if(trim($_POST['name']) === '') {
-		$nameError =  'Forgot your name!'; 
-		$hasError = true;
-	} else {
-		$name = trim($_POST['name']);
-	}// require a name from user
-	if(trim($_POST['worth']) === '') {
-		$worthError =  'Forgot your worth!'; 
-		$hasError = true;
-	} else {
-		$worth = trim($_POST['worth']);
-        $worth = "$".number_format($worth).".00";
-	}// require a name from user
-	if(trim($_POST['owe']) === '') {
-		$oweError =  'Forgot your owe!'; 
-		
-		$hasError = true;
-	} else {
-		$owe = trim($_POST['owe']);
-        $owe = "$".number_format($owe).".00";
-	}
-	if(trim($_POST['repair']) === '') {
-		$repairError =  'Forgot your repair!'; 
-		$hasError = true;
-	} else {
-		$repair = trim($_POST['repair']);
-	}
-	if(trim($_POST['todo']) === '') {
-		$todoError =  'Forgot your todo!'; 
-		$hasError = true;
-	} else {
-		$todo = trim($_POST['todo']);
-	}
-	if(trim($_POST['web']) === '') {
-		$webError =  'Forgot your Phone!'; 
-		$hasError = true;
-	} else {
-		$web = trim($_POST['web']);
-	}
-	
-	// need valid email
-	if(trim($_POST['email']) === '')  {
-		$emailError = 'Forgot to enter in your e-mail address.';
-		$hasError = true;
-	} else if (!preg_match("/^[[:alnum:]][a-z0-9_.-]*@[a-z0-9.-]+\.[a-z]{2,4}$/i", trim($_POST['email']))) {
-		$emailError = 'You entered an invalid email address.';
-		$hasError = true;
-	} else {
-		$email = trim($_POST['email']);
-	}
-		
-	// we need at least some content
-	if(trim($_POST['message']) === '') {
-		$messageError = 'You forgot to enter a message!';
-		$hasError = true;
-	} else {
-		if(function_exists('stripslashes')) {
-			$message = stripslashes(trim($_POST['message']));
-		} else {
-			$message = trim($_POST['comments']);
-		}
-	}
-		
-	// upon no failure errors let's email now!
-	if(!isset($hasError)) {
-		
-		$emailTo = 'eddie@theallardcompany.com';
-		$subject = 'Submitted message from '.$name;
-		$sendCopy = trim($_POST['sendCopy']);
-		$body = "Name: $name \n\nWorth: $worth \n\nOwe: $owe \n\nRepair: $repair \n\nTodo: $todo \n\nPhone: $web \n\nEmail: $email \n\nComments: $message";
-		$headers = 'From: ' .' <'.$emailTo.'>' . "\r\n" . 'Reply-To: ' . $email;
-
-		if(mail($emailTo, $subject, $body, $headers))
-		{
-				$emailSent = true;
-
-		echo "Success";
-		}
-        else
-	{
-	echo "error";
-	}
-        // set our boolean completion value to TRUE
-	}
-	
+<?php
+if(isset($_POST['email'])) {
+ 
+    // EDIT THE 2 LINES BELOW AS REQUIRED
+    $email_to = "eddie@theallardcompany.com";
+    $email_subject = "TAC Submission";
+ 
+    function died($error) {
+        // your error code can go here
+        echo "We are very sorry, but there were error(s) found with the form you submitted. ";
+        echo "These errors appear below.<br /><br />";
+        echo $error."<br /><br />";
+        echo "Please go back and fix these errors.<br /><br />";
+        die();
+    }
+ 
+ 
+    // validation expected data exists
+    if(!isset($_POST['name']) ||
+        !isset($_POST['email']) ||
+        !isset($_POST['message'])) {
+        died('We are sorry, but there appears to be a problem with the form you submitted.');       
+    }
+ 
+     
+ 
+    $name = $_POST['name']; // required
+    $email = $_POST['email']; // required
+    $message = $_POST['message']; // required
+ 
+    $error_message = "";
+    $email_exp = '/^[A-Za-z0-9._%-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,4}$/';
+ 
+  if(!preg_match($email_exp,$email)) {
+    $error_message .= 'The Email Address you entered does not appear to be valid.<br />';
+  }
+ 
+    $string_exp = "/^[A-Za-z .'-]+$/";
+ 
+  if(!preg_match($string_exp,$name)) {
+    $error_message .= 'The First Name you entered does not appear to be valid.<br />';
+  }
+ 
+ 
+  if(strlen($message) < 2) {
+    $error_message .= 'The message you entered do not appear to be valid.<br />';
+  }
+ 
+  if(strlen($error_message) > 0) {
+    died($error_message);
+  }
+ 
+    $email_message = "Form details below.\n\n";
+ 
+     
+    function clean_string($string) {
+      $bad = array("content-type","bcc:","to:","cc:","href");
+      return str_replace($bad,"",$string);
+    }
+ 
+     
+ 
+    $email_message .= "Full Name: ".clean_string($name)."\n";
+    $email_message .= "Your Email: ".clean_string($email)."\n";
+    $email_message .= "Type Your message Here: ".clean_string($message)."\n";
+ 
+// create email headers
+$headers = 'From: '.$email_from."\r\n".
+'Reply-To: '.$email_from."\r\n" .
+'X-Mailer: PHP/' . phpversion();
+@mail($email_to, $email_subject, $email_message, $headers);  
+?>
+ 
+<!-- include your own success html here -->
+ 
+Thank you for contacting us. We will be in touch with you very soon.
+ 
+<?php
+ 
 }
 ?>
