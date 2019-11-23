@@ -81,7 +81,7 @@ $headers = 'From: '.$email_from."\r\n".
 						<div class="col-md-12 col-sm-12 col-xs-12">
 							<div class="section-title">
 								<h1><span></span>Thank you for contacting us. We will be in touch with you very soon.<i class="fa fa-history"></i></h1>
-								<p>Not limited too..<p>
+								<a href="http://www.theallardcompany.com">Go Back</a>
 							</div>
 						</div>
 					</div>
