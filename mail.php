@@ -73,7 +73,22 @@ $headers = 'From: '.$email_from."\r\n".
  
 <!-- include your own success html here -->
  
-Thank you for contacting us. We will be in touch with you very soon.
+
+<!-- Start Timeline-->
+<section id="my-timeline" class="section clearfix">
+				<div class="container">
+					<div class="row">
+						<div class="col-md-12 col-sm-12 col-xs-12">
+							<div class="section-title">
+								<h1><span></span>Thank you for contacting us. We will be in touch with you very soon.<i class="fa fa-history"></i></h1>
+								<p>Not limited too..<p>
+							</div>
+						</div>
+					</div>
+					
+				</div>
+			</section>
+			<!--/ End Timeline -->
  
 <?php
  
