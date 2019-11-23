@@ -316,7 +316,7 @@ Version:	1.1
 		/*====================================
 		Contact form submission
 		=====================================*/
-		$("#form").on('submit',function(event) {
+		$(".form").on('submit',function(event) {
 			event.preventDefault(); // to prevent default page reloading
 			var dataString = $(this).serialize(); // to get the form data
 			$.ajax({
@@ -324,7 +324,7 @@ Version:	1.1
 				url: "mail.php",
 				data: dataString,
 				success: function(data){
-					$('#form')[0].reset(); // to reset form data
+					$('.form')[0].reset(); // to reset form data
 				}
 			}).done(function(data){
 				setTimeout(function () {
