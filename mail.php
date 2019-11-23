@@ -40,6 +40,10 @@ if(isset($_POST['email'])) {
   if(!preg_match($string_exp,$name)) {
     $error_message .= 'The First Name you entered does not appear to be valid.<br />';
   }
+
+  if(preg_match('/http|www/i',$comments)) {
+    $error_message .= "We do not allow a url in the comment.<br />";
+  }
  
  
   if(strlen($message) < 2) {
