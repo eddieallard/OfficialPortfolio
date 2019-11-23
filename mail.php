@@ -23,7 +23,7 @@ if(isset($_POST['email'])) {
     }
  
      
- 
+ // Post email conditionals otherwise, send the email
     $name = $_POST['name']; // required
     $email_from = $_POST['email']; // required
     $message = $_POST['message']; // required
@@ -41,8 +41,8 @@ if(isset($_POST['email'])) {
     $error_message .= 'The First Name you entered does not appear to be valid.<br />';
   }
 
-  if(preg_match('/http|www/i',$comments)) {
-    $error_message .= "We do not allow a url in the comment.<br />";
+  if(preg_match('/http|www/i',$message)) {
+    $error_message .= "We do not allow a url in the message.<br />";
   }
  
  
@@ -53,7 +53,8 @@ if(isset($_POST['email'])) {
   if(strlen($error_message) > 0) {
     died($error_message);
   }
- 
+
+
     $email_message = "Form details below.\n\n";
  
      
@@ -63,7 +64,7 @@ if(isset($_POST['email'])) {
     }
  
      
- 
+ // This is what is shown on the recieved email
     $email_message .= "Full Name: ".clean_string($name)."\n";
     $email_message .= "Your Email: ".clean_string($email_from)."\n";
     $email_message .= "Type Your message Here: ".clean_string($message)."\n";
@@ -78,8 +79,8 @@ $headers = 'From: '.$email_from."\r\n".
 <!-- include your own success html here -->
  
 
-<!-- Start Timeline-->
-<section id="my-timeline" class="section clearfix">
+<!-- Start Success Html-->
+<!-- <section id="my-timeline" class="section clearfix">
 				<div class="container">
 					<div class="row">
 						<div class="col-md-12 col-sm-12 col-xs-12">
@@ -89,10 +90,9 @@ $headers = 'From: '.$email_from."\r\n".
 							</div>
 						</div>
 					</div>
-					
 				</div>
-			</section>
-			<!--/ End Timeline -->
+			</section> -->
+			<!--/ End Success Html -->
  
 <?php
  

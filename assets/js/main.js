@@ -313,6 +313,26 @@ Version:	1.1
 			}
 		});	
 
+		/*====================================
+		Contact form submission
+		=====================================*/
+		$("#form").on('submit',function(event) {
+			event.preventDefault(); // to prevent default page reloading
+			var dataString = $(this).serialize(); // to get the form data
+			$.ajax({
+				type: "POST",
+				url: "mail.php",
+				data: dataString,
+				success: function(data){
+					$('#form')[0].reset(); // to reset form data
+				}
+			}).done(function(data){
+				setTimeout(function () {
+					$('.contactform-messages').addClass('active');
+				}, 300);
+			});
+		});
+
 		
 		/*====================================
 		Extra JS
